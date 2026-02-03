@@ -1,24 +1,20 @@
-import React from "react";
-import Login from "./pages/Login";
-import StudentDashboard from "./pages/StudentDashboard";
-import TeacherDashboard from "./pages/TeacherDashboard";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import StudentDashboard from './pages/StudentDashboard';
+import TeacherDashboard from './pages/TeacherDashboard';
 
 function App() {
-  const role = localStorage.getItem("role");
-
-  if (!role) {
-    return <Login />;
-  }
-
-  if (role === "student") {
-    return <StudentDashboard />;
-  }
-
-  if (role === "teacher") {
-    return <TeacherDashboard />;
-  }
-
-  return <h2>Unauthorized Access</h2>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/teacher" element={<TeacherDashboard />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
+
