@@ -1,4 +1,3 @@
-CREATE DATABASE schooldb;
 USE schooldb;
 
 CREATE TABLE users (
@@ -22,3 +21,4 @@ CREATE TABLE marks (
   subject VARCHAR(50),
   marks INT
 );
+

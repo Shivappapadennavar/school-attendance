@@ -1,20 +1,37 @@
-version: "3"
+version: "3.8"
+
 services:
   mysql:
     image: mysql:8
+    container_name: school-attendance_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: schooldb
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
+    container_name: school-attendance_backend
     ports:
       - "5000:5000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
+    container_name: school-attendance_frontend
     ports:
-      - "3000:3000"
+      - "3000:80"   # ✅ FIXED HERE
+    depends_on:
+      backend:
+        condition: service_started
+
